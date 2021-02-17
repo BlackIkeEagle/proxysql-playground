@@ -23,3 +23,12 @@ services:
       - "./proxysql.cnf:/etc/proxysql.cnf"
     depends_on:
       - mysql
+
+  haproxy:
+    image: docker.io/library/haproxy:2.3
+    environment:
+      DOMAIN_NAME: haproxy.sysbench.test
+    volumes:
+      - "./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+    depends_on:
+      - mysql
