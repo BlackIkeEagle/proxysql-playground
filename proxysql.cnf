@@ -9,11 +9,11 @@ admin_variables =
 
 mysql_variables =
 {
-    threads=4
+    threads=12
     max_connections=2048
     default_query_delay=0
     default_query_timeout=36000000
-    have_compress=false
+    have_compress=true
     poll_timeout=2000
     interfaces="0.0.0.0:3306"
     default_schema="information_schema"
@@ -32,6 +32,9 @@ mysql_variables =
     commands_stats=true
     sessions_sort=true
     connect_retries_on_failure=10
+    use_tcp_keepalive=1
+    tcp_keepalive_time=300
+    query_cache_size_MB=4096
 }
 
 mysql_servers =
@@ -56,5 +59,17 @@ mysql_users =
         username="bench"
         password="bench"
         default_hostgroup=0
+    },
+)
+
+mysql_query_rules =
+(
+    {
+        rule_id=1
+        active=1
+        match_pattern="^SELECT"
+        destination_hostgroup=0
+        cache_ttl=60000
+        apply=1
     },
 )
