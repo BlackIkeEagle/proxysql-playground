@@ -1,0 +1,15 @@
+---
+log:
+  level: error
+
+entryPoints:
+  mysql:
+    address: ":3306"
+
+serversTransport:
+  insecureSkipVerify: true
+
+providers:
+  file:
+    directory: /etc/traefik/rules
+    watch: true

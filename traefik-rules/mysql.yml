@@ -1,0 +1,13 @@
+---
+tcp:
+  routers:
+    mysql-rtr:
+      rule: "HostSNI(`*`)"
+      entrypoints: mysql
+      service: mysql-svc
+
+  services:
+    mysql-svc:
+      loadbalancer:
+        servers:
+          - address: "mysql:3306"

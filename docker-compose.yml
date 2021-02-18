@@ -15,20 +15,30 @@ services:
       --default-authentication-plugin=mysql_native_password
       --performance-schema-session-connect-attrs-size=4096
 
+  haproxy:
+    image: docker.io/library/haproxy:2.3.5
+    environment:
+      DOMAIN_NAME: haproxy.sysbench.test
+    volumes:
+      - "./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+    depends_on:
+      - mysql
+
+  traefik:
+    image: docker.io/library/traefik:2.4.3
+    environment:
+      DOMAIN_NAME: traefik.sysbench.test
+    volumes:
+      - "./traefik.yml:/etc/traefik/traefik.yml"
+      - "./traefik-rules:/etc/traefik/rules"
+    depends_on:
+      - mysql
+
   proxysql:
     image: docker.io/proxysql/proxysql:2.0.17
     environment:
       DOMAIN_NAME: proxysql.sysbench.test
     volumes:
       - "./proxysql.cnf:/etc/proxysql.cnf"
-    depends_on:
-      - mysql
-
-  haproxy:
-    image: docker.io/library/haproxy:2.3
-    environment:
-      DOMAIN_NAME: haproxy.sysbench.test
-    volumes:
-      - "./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
     depends_on:
       - mysql
